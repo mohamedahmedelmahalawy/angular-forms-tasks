@@ -1,0 +1,130 @@
+<div>
+  <h2>Registration</h2>
+
+  <form
+    action="#"
+    [formGroup]="registrationForm"
+    (ngSubmit)="onSubmitRegistration()"
+  >
+    <div>
+      <label for="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter your name"
+        formControlName="name"
+      />
+      @if(nameControl?.touched && nameControl?.errors){
+      @if(nameControl?.getError('required')){
+      <small>This field is required</small>
+      } }
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        formControlName="email"
+      />
+      @if(emailControl?.touched && emailControl?.errors){
+      @if(emailControl?.getError('required')){
+      <small>Email can't be empty</small>
+      } @if(emailControl?.getError('pattern')){
+      <small>Invalid email format</small>
+      } }
+    </div>
+
+    <div>
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        formControlName="username"
+      />
+      @if(usernameControl?.touched && usernameControl?.errors){
+      @if(usernameControl?.getError('required')){
+      <small>Username is required</small>
+      } @if(usernameControl?.getError('pattern')){
+      <small>Username can't be empty or contain spaces</small>
+      } }
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        formControlName="password"
+      />
+      @if(passwordControl?.touched && passwordControl?.errors){
+      @if(passwordControl?.getError('required')){
+      <small>Password is required</small>
+      } @if(passwordControl?.getError('pattern')){
+      <small
+        >Password must be at least 8 characters long and contain:
+        <ul>
+          <li>One uppercase letter</li>
+          <li>One lowercase letter</li>
+          <li>One number</li>
+          <li>One special character ($!%*?&)</li>
+        </ul>
+      </small>
+      } }
+    </div>
+
+    <div>
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm password"
+        formControlName="confirmPassword"
+      />
+
+      @if(confirmPasswordControl?.touched && confirmPasswordControl?.errors){
+      @if(confirmPasswordControl?.getError('required')){
+      <small>Please confirm your password</small>
+      } @if(confirmPasswordControl?.getError('mismatch') ){
+      <small>Passwords do not match</small>
+      } }
+    </div>
+
+    <div formArrayName="addresses">
+      @for(addr of addressesControl.controls;track $index;let i = $index){
+      <div [formGroupName]="i">
+        <input type="text" formControlName="address" placeholder="Address" />
+        @if (addr.get('address')?.invalid && addr.get('address')?.touched) {
+        <small>Address is required</small>
+        }
+        <input type="text" formControlName="country" placeholder="Country" />
+        @if (addr.get('country')?.invalid && addr.get('country')?.touched) {
+        <small>Country is required</small>
+        }
+        <input type="text" formControlName="city" placeholder="City" />
+        @if (addr.get('city')?.invalid && addr.get('city')?.touched) {
+        <small>City is required</small>
+        }
+        <input type="text" formControlName="street" placeholder="Street" />
+        @if(addr.get('street')?.invalid && addr.get('street')?.touched){
+        <small>Street Is Required</small>
+        }
+        <button type="button" (click)="removeAddressField(i)">Delete</button>
+      </div>
+      }@empty {
+      <h3>No Address Provided Yet</h3>
+      }
+    </div>
+
+    <div>
+      <button type="button" (click)="addAddressField()">Add Address</button>
+      <input type="submit" value="Register Now" />
+    </div>
+    <div>
+      <h3>Already have an account? <a href="#">Login now</a></h3>
+    </div>
+  </form>
+</div>

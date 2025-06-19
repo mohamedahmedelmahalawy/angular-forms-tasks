@@ -1,0 +1,36 @@
+<section class="login">
+  <h1 class="opacity">LOGIN</h1>
+  <form #f="ngForm" (ngSubmit)="loginHandler(f)">
+    <input
+      type="email"
+      placeholder="Email"
+      name="email"
+      ngModel
+      #email="ngModel"
+      required
+    />
+    @if(email.touched && email.errors){ @if(email.getError('required')) {
+    <small>The Email is required</small>
+    } @if(email.getError('pattern')){
+    <small>Email is incorrect Format</small>
+    } }
+
+    <input
+      type="password"
+      placeholder="PASSWORD"
+      name="password"
+      ngModel
+      #password="ngModel"
+      minlength="8"
+      required
+    />
+
+    @if(password.touched && password.errors){ @if(email.getError('required')) {
+    <small>The password is required</small>
+    } @if(password.getError('minlength')){
+    <small>the password must be at least 8 letters</small>
+    } }
+
+    <button class="opacity" [disabled]="!f.valid">LOGIN</button>
+  </form>
+</section>
